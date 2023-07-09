@@ -41,7 +41,6 @@ export const SignUpScreen = observer(() => {
 		if(key === "phonenumber" && userData?.phonenumber?.length === 5) {
 			setShowRequireError(false)
 		}
-
 	}
 
 	const goToLogIn = () => {
