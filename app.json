@@ -15,7 +15,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist" : {
+        "UIViewControllerBasedStatusBarAppearance": "YES",
+        "StatusBarAnimation": "none"
+      }
     },
     "android": {
       "adaptiveIcon": {

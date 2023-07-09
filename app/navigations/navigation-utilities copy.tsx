@@ -1,14 +1,10 @@
 import { useEffect, useRef, useState } from "react"
-import { BackHandler } from "react-native"
 import {
   createNavigationContainerRef,
   NavigationAction,
   NavigationState,
   PartialState,
 } from "@react-navigation/native"
-import { useStores } from "../models"
-import { useCustomTheme } from "../theme/use-theme"
-import { DarkThemeScreens } from "../theme/theme"
 
 /* eslint-disable */
 export const RootNavigation = {
@@ -54,61 +50,6 @@ export function getActiveRouteParams(state: NavigationState | PartialState<Navig
   return getActiveRouteParams(route.state)
 }
 
-/**
- * Hook that handles Android back button presses and forwards those on to
- * the navigation or allows exiting the app.
- */
-export function useBackButtonHandler(canExit: (routeName: string) => boolean) {
-  const canExitRef = useRef(canExit)
-  const { appStore } = useStores()
-  const { history } = appStore
-  const themeHook = useCustomTheme()
-
-  useEffect(() => {
-    canExitRef.current = canExit
-  }, [canExit])
-
-  useEffect(() => {
-    // We'll fire this when the back button is pressed on Android.
-    const onBackPress = () => {
-      if (!navigationRef.isReady()) {
-        return false
-      }
-
-      // grab the current route
-      const routeState = navigationRef.getRootState()
-      const routeName = getActiveRouteName(routeState)
-
-      // are we allowed to exit?
-      if (canExitRef.current(routeName)) {
-        // exit and let the system know we've handled the event
-        BackHandler.exitApp()
-        return true
-      }
-      // we can't exit, so let's turn this into a back action
-      if (navigationRef.canGoBack()) {
-        if (history.length > 1) {
-          const lastVisitedScreen = history[history.length - 2].route
-          if (DarkThemeScreens.includes(lastVisitedScreen)) {
-            themeHook.setTheme("dark")
-          } else {
-            themeHook.setTheme("light")
-          }
-        }
-        navigationRef.goBack()
-        return true
-      }
-
-      return false
-    }
-
-    // Subscribe when we come to life
-    BackHandler.addEventListener("hardwareBackPress", onBackPress)
-
-    // Unsubscribe when we're done
-    return () => BackHandler.removeEventListener("hardwareBackPress", onBackPress)
-  }, [])
-}
 
 /**
  * Custom hook for persisting navigation state.
