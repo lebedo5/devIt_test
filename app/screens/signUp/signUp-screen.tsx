@@ -9,8 +9,10 @@ import { useNavigation } from "@react-navigation/native";
 import { useStores } from "../../models/root-store/root-store-context";
 import PhoneInput from "react-native-phone-number-input";
 import { AnimationError } from "../../components/animation-error/animation-error";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 export const SignUpScreen = observer(() => {
 	const navigation = useNavigation()
+	const { bottom } = useSafeAreaInsets()
 	const [phoneValidation, setPhoneValidation] = useState<string>("");
 	const [isValidCellCode, setIsValidCellCode] = useState<boolean>(true);
 	const [showRequireError, setShowRequireError] = useState<boolean>(false)
@@ -145,6 +147,7 @@ export const SignUpScreen = observer(() => {
 					linkText={"Log In"}
 					link={goToLogIn}
 				/>
+				<Divider size={bottom + 20} />
 			</View>
 		</Screen>
 	)

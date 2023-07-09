@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { Text, Divider, Screen, Input, Button, LinkText } from "../../components"
 import { Logo } from "../../assets/icons/Logo";
 import { palette } from "../../theme/palette";
-import { fontSize, height, size } from "../../utils/size";
+import { fontSize, height, isSmallDevice, size } from "../../utils/size";
 import { useNavigation } from "@react-navigation/native";
 import { useStores } from "../../models/root-store/root-store-context";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -73,7 +73,7 @@ export const LogInScreen = observer(() => {
           type={"email"}
           onChange={(val) => onChange(val, "email")}
         />
-        <Divider size={10}/>
+        <Divider size={isSmallDevice ? 10 : 30} />
         <Input
           labelText={"Password"}
           actualPlaceholder={"Password"}
