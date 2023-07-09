@@ -14,12 +14,12 @@ const DEFAULT_IMAGE = require("./Photo.png")
 export const UserProfile = observer(() => {
 	const { userDataStore: { userData, createUserTable, getUserData }, authStore: { toggleIsAuthenticated, getUsersData, updateData, createTable } } = useStores()
 	const [user, updateUser] = useState(userData)
-	const { top, bottom } = useSafeAreaInsets()
+	const { bottom } = useSafeAreaInsets()
 	const navigation = useNavigation()
 
 	useEffect(() => {
 		createUserTable()
-		// createTable()
+		createTable()
 		getUserData()
 	}, [])
 
@@ -64,7 +64,7 @@ export const UserProfile = observer(() => {
 				<Divider size={12} />
 				<Text boldText style={styles.fullName} text={userData?.username} />
 				<Divider size={2} />
-				<Text boldText style={styles.occupation} text={userData?.position} />
+				<Text boldText style={styles.occupation} text={userData?.position || "UI/UX Designer"} />
 				<Divider size={27} />
 				<View>
 					<Input

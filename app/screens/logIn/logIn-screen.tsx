@@ -9,7 +9,6 @@ import { useNavigation } from "@react-navigation/native";
 import { useStores } from "../../models/root-store/root-store-context";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-
 export const LogInScreen = observer(() => {
   const navigation = useNavigation()
   const { authStore: {
@@ -17,7 +16,8 @@ export const LogInScreen = observer(() => {
     getUsersData,
     validationFunction,
     clearErrors,
-    createTable
+    createTable,
+    users
   }, userDataStore: {
     createUserTable
   } } = useStores()
@@ -42,7 +42,8 @@ export const LogInScreen = observer(() => {
   }
 
   const logIns = () => {
-    if(!validationFunction(userData?.email, "email") && !validationFunction(userData?.password, "password")) return
+    if(!validationFunction(userData?.email, "email") ||
+      !validationFunction(userData?.password, "password")) return
 
     logIn({
       email: userData?.email,

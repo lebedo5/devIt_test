@@ -25,7 +25,7 @@ export const AnimationError = observer(({ errorTitle }: AnimationErrorProps) => 
 	}, []);
 
 	return (
-		<Animated.View style={{ display: Boolean(fadeAnim) ? "flex" : "none" }}>
+		<Animated.View>
 			<Divider size={4} />
 			<Text style={styles.errorText} text={errorTitle}/>
 		</Animated.View>

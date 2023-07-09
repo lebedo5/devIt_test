@@ -76,7 +76,7 @@ export const Input = observer((
 					autoCorrect={false}
 				/>
 				{showSecureIcon &&
-					<Pressable onPress={showSecureText} style={{position: "absolute", right: 0}}>
+					<Pressable onPress={showSecureText} style={styles.iconContainer}>
 						<EyeIcon secureText={secureText}/>
 					</Pressable>
 				}
@@ -113,6 +113,10 @@ const styles = StyleSheet.create({
 		color: palette.red,
 		fontSize: fontSize(13),
 		fontWeight: '600'
+	},
+	iconContainer: {
+		position: "absolute",
+		right: 0
 	}
 
 })

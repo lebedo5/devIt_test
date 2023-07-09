@@ -1,7 +1,7 @@
 import * as SQLite from "expo-sqlite";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
-export const db = SQLite.openDatabase('dataBSBS.db')
+export const db = SQLite.openDatabase('newDBForTesting.db')
 
 
 /**

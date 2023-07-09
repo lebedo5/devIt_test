@@ -11,8 +11,9 @@ import PhoneInput from "react-native-phone-number-input";
 import { AnimationError } from "../../components/animation-error/animation-error";
 export const SignUpScreen = observer(() => {
 	const navigation = useNavigation()
-	const [phoneValidation, setPhoneValidation] = useState<string>("1");
+	const [phoneValidation, setPhoneValidation] = useState<string>("");
 	const [isValidCellCode, setIsValidCellCode] = useState<boolean>(true);
+	const [showRequireError, setShowRequireError] = useState<boolean>(false)
 	const [userData, setUserData] = useState<object>({
 		email: "",
 		username: "",
@@ -21,7 +22,8 @@ export const SignUpScreen = observer(() => {
 		confirmPassword: "",
 		phonenumber: ""
 	});
-	const confirmPasswords = Boolean(userData?.password === userData?.confirmPassword && userData?.password?.length > 5)
+
+	const confirmPasswords = Boolean(userData?.password === userData?.confirmPassword)
 
 	const phoneInput = useRef<PhoneInput>(null);
 
@@ -35,8 +37,9 @@ export const SignUpScreen = observer(() => {
 		if(key === "code") {
 			setIsValidCellCode(userData?.code?.length === CELL_COUNT - 1)
 		}
-		if(key === "phonenumber") {
-			phoneInput.current?.isValidNumber(phoneValidation)
+
+		if(key === "phonenumber" && userData?.phonenumber?.length === 5) {
+			setShowRequireError(false)
 		}
 
 	}
@@ -47,17 +50,16 @@ export const SignUpScreen = observer(() => {
 	}
 
 	const signUpUser = () => {
-		if(phoneValidation && isValidCellCode) {
+		if(!phoneValidation || isValidCellCode) {
 			setIsValidCellCode(userData?.code?.length === CELL_COUNT)
-			setPhoneValidation("")
+			setShowRequireError(true)
 		}
 
-		if(!validationFunction(userData?.email, "email") &&
-			!validationFunction(userData?.password, 'password') &&
-			!validationFunction(userData?.username, 'username') &&
-			confirmPasswords &&
-			!phoneInput.current?.isValidNumber(phoneValidation) &&
-			!isValidCellCode) return
+		if(!validationFunction(userData?.email, "email") ||
+			!validationFunction(userData?.password, 'password') ||
+			!validationFunction(userData?.username, 'username') ||
+			!isValidCellCode ||
+			!phoneInput.current?.isValidNumber(phoneValidation)) return
 
 		signUp({
 				code: userData?.code,
@@ -90,7 +92,7 @@ export const SignUpScreen = observer(() => {
 						onChangeFormattedText={(val) => onChange(val, "phonenumber")}
 						onChangeText={(val) => setPhoneValidation(val)}
 					/>
-					{!Boolean(phoneValidation) ? <AnimationError errorTitle={"Can be empty"} /> :
+					{showRequireError ? <AnimationError errorTitle={"Can be empty"} /> :
 						!phoneInput.current?.isValidNumber(phoneValidation) && userData?.phonenumber ?
 						<AnimationError errorTitle={"Not valid phone"} /> : null
 					}
