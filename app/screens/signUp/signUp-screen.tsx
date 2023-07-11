@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { observer } from "mobx-react-lite";
 import { StyleSheet, View } from "react-native";
 import { Button, CELL_COUNT, ConfirmCode, Divider, Input, LinkText, Screen, Text } from "../../components"
@@ -10,6 +10,7 @@ import { useStores } from "../../models/root-store/root-store-context";
 import PhoneInput from "react-native-phone-number-input";
 import { AnimationError } from "../../components/animation-error/animation-error";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { db } from "../../utils/store/store";
 export const SignUpScreen = observer(() => {
 	const navigation = useNavigation()
 	const { bottom } = useSafeAreaInsets()

@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import { observer } from "mobx-react-lite";
 import { Text, Divider, Screen, Input, Button, LinkText } from "../../components"
 import { Logo } from "../../assets/icons/Logo";
 import { palette } from "../../theme/palette";
 import { fontSize, height, isSmallDevice, size } from "../../utils/size";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { useStores } from "../../models/root-store/root-store-context";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export const LogInScreen = observer(() => {
   const navigation = useNavigation()
+  const isFocused = useIsFocused();
+
   const { authStore: {
     logIn,
     getUsersData,
@@ -33,7 +35,7 @@ export const LogInScreen = observer(() => {
     createTable()
     createUserTable()
     getUsersData()
-  }, [])
+  }, [isFocused])
 
   const onChange = async (value: string, key: string) => {
     const copy = Object.assign({}, userData)

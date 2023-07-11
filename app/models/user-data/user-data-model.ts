@@ -1,4 +1,4 @@
-import { Instance, SnapshotOut, types } from "mobx-state-tree";
+import { getRoot, Instance, SnapshotOut, types } from "mobx-state-tree";
 import { db } from "../../utils/store/store";
 import * as store from "../../utils/store/store"
 
@@ -23,6 +23,22 @@ export const UserDataModel = types
 		},
 	}))
 	.actions((self) => ({
+		updateUser(value) {
+			self.userData = Object.assign({}, self.userData, value)
+		},
+		updateData(params) {
+			const { email, username, phonenumber, position, skype, id } = params
+
+			db.transaction(tx => {
+				tx.executeSql('UPDATE user SET email = ?, username = ?, phonenumber = ?, position = ?, skype = ? WHERE id = ?',
+					[email, username, phonenumber, position, skype, id],
+					(txObj, resultSet) => {
+						this.updateUser(params)
+					},
+					(txObj, error) => console.log(error)
+				);
+			});
+		},
 		async getUser(params) {
 			const { email, password, username, phonenumber = "", position = "", skype = "" } = params
 

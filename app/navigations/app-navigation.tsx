@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator<NavigatorParamList>();
 
 export const AppNavigation = observer(() => {
 
-	const { authStore: { isAuthenticated, getUsersData, createTable, toggleIsAuthenticated }, userDataStore: { createUserTable } } = useStores()
+	const { authStore: { isAuthenticated, toggleIsAuthenticated }} = useStores()
 
 	const getInitialScreen = async () => {
 		toggleIsAuthenticated(Boolean(await storage.load("USER_AUTHENTICATED")))

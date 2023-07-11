@@ -55,12 +55,6 @@ export const AuthModel = types
 				data.map((item) => UserModel.create(item)),
 			)
 		},
-		toggleUserInArray(params) {
-			let newUsers = [...self.users]
-			const indexToUpdate = newUsers.findIndex(name => name.id === 4);
-			newUsers[indexToUpdate] = { ...params};
-			this.updateUsers(newUsers)
-		}
 	}))
 	.actions((self) => ({
 		validationFunction(text, type) {
@@ -146,7 +140,7 @@ export const AuthModel = types
 		signUp: flow(function* (params) {
 			const { userDataStore: { getUser } } = getRoot(self)
 			const { email, password, username, phonenumber } = params
-			console.log(self.emailError.isValidate && self.passwordError.isValidate && self.userNameError.isValidate, self.emailError.isValidate , self.passwordError.isValidate , self.userNameError.isValidate)
+
 			if(self.emailError.isValidate && self.passwordError.isValidate && self.userNameError.isValidate) {
 				try {
 					db.transaction((tx) => {
@@ -166,19 +160,6 @@ export const AuthModel = types
 			}
 		}),
 
-		updateData(params) {
-			const { email, username, phonenumber, position, skype, id } = params
-
-			db.transaction(tx => {
-				tx.executeSql('UPDATE users SET email = ?, username = ?, phonenumber = ?, position = ?, skype = ? WHERE id = ?',
-					[email, username, phonenumber, position, skype, id],
-					(txObj, resultSet) => {
-						self.toggleUserInArray(params)
-					},
-					(txObj, error) => console.log(error)
-				);
-			});
-		},
 	}))
 	.actions((self) => ({
 		logIn(params) {

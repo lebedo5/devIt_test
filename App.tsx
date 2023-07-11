@@ -5,14 +5,11 @@ import { AppNavigation } from "./app/navigations";
 import { RootStoreProvider } from "./app/models/root-store/root-store-context";
 import { RootStore } from "./app/models/root-store/root-store";
 import { setupRootStore } from "./app/models";
-import * as storage from "./app/utils/store/store"
-import { useNavigationPersistence } from "./app/navigations/navigation-utilities copy";
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 import { StyleSheet, View } from "react-native";
 import { palette } from "./app/theme/palette";
 
-export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -41,12 +38,6 @@ export default function App() {
 
     prepare();
   }, []);
-
-  const {
-    initialNavigationState,
-    onNavigationStateChange,
-    isRestored: isNavigationStateRestored,
-  } = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY)
 
   useEffect(() => {
     ;(async () => {

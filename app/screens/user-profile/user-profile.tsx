@@ -12,17 +12,15 @@ import { observer } from "mobx-react-lite";
 
 const DEFAULT_IMAGE = require("./Photo.png")
 export const UserProfile = observer(() => {
-	const { userDataStore: { userData, createUserTable, getUserData }, authStore: { toggleIsAuthenticated, getUsersData, updateData, createTable } } = useStores()
+	const { userDataStore: { userData, createUserTable, getUserData, updateData }, authStore: { toggleIsAuthenticated, getUsersData} } = useStores()
 	const [user, updateUser] = useState(userData)
 	const { bottom } = useSafeAreaInsets()
 	const navigation = useNavigation()
 
 	useEffect(() => {
 		createUserTable()
-		createTable()
 		getUserData()
 	}, [])
-
 
 	const onChange = async (value: string, key: string) => {
 		const copy = Object.assign({}, userData)
